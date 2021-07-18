@@ -14,9 +14,9 @@ const SavedBooks = () => {
     const { loading, error, data, refetch } = useQuery(GET_ME);
     
 
-    useEffect(() => {
-      refetch();
-    }, [refetch, data]);
+    // useEffect(() => {
+    //   refetch();
+    // }, [refetch, data]);
 
     const userData = data?.me;
     
