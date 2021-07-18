@@ -11,11 +11,16 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-    const { loading, data } = useQuery(GET_ME);
-    const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+    const { loading, error, data, refetch } = useQuery(GET_ME);
+    
 
-    const userData = data?.me || {};
+    useEffect(() => {
+      refetch();
+    }, [refetch, data]);
 
+    const userData = data?.me;
+    
+    const [removeBook] = useMutation(REMOVE_BOOK);
     const handleDeleteBook = async ( bookId ) => {
         const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -28,6 +33,7 @@ const SavedBooks = () => {
             variables: { bookId }
           });
           removeBookId(bookId);
+          refetch();
         } catch (err) {
         console.error(err);
       };
